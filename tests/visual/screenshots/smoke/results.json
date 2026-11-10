@@ -1,0 +1,740 @@
+[
+  {
+    "role": "admin",
+    "slug": "dashboard",
+    "url": "dashboard",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__dashboard__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "shipments",
+    "url": "shipments",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-gold btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-danger",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__shipments__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "shipments-create",
+    "url": "shipments/create",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-secondary btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__shipments-create__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "shipments-edit",
+    "url": "shipments/8/edit",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-secondary btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__shipments-edit__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "shipments-show",
+    "url": "shipments/4",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__shipments-show__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "board",
+    "url": "shipments/board",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__board__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "drivers",
+    "url": "drivers",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-gold btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-danger",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-danger",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__drivers__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "drivers-show",
+    "url": "drivers/2",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-navy btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__drivers-show__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "drivers-create",
+    "url": "drivers/create",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-secondary btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__drivers-create__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "drivers-edit",
+    "url": "drivers/2/edit",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-secondary btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__drivers-edit__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "trucks",
+    "url": "trucks",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-accent btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__trucks__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "trucks-create",
+    "url": "trucks/create",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-secondary btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__trucks-create__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "destinations",
+    "url": "destinations",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 10,
+    "offenders": [
+      {
+        "t": "NAV",
+        "c": "",
+        "l": -62,
+        "r": 437
+      },
+      {
+        "t": "UL",
+        "c": "pagination",
+        "l": -62,
+        "r": 437
+      },
+      {
+        "t": "LI",
+        "c": "page-item disabled",
+        "l": 403,
+        "r": 437
+      },
+      {
+        "t": "SPAN",
+        "c": "page-link",
+        "l": 405,
+        "r": 435
+      },
+      {
+        "t": "LI",
+        "c": "page-item active",
+        "l": 369,
+        "r": 403
+      },
+      {
+        "t": "SPAN",
+        "c": "page-link",
+        "l": 371,
+        "r": 404
+      },
+      {
+        "t": "LI",
+        "c": "page-item",
+        "l": -31,
+        "r": 11
+      },
+      {
+        "t": "A",
+        "c": "page-link",
+        "l": -29,
+        "r": 12
+      },
+      {
+        "t": "LI",
+        "c": "page-item",
+        "l": -62,
+        "r": -31
+      },
+      {
+        "t": "A",
+        "c": "page-link",
+        "l": -60,
+        "r": -30
+      }
+    ],
+    "tiny": [
+      {
+        "c": "btn btn-gold btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-danger",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-danger",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-danger",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__destinations__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "destinations-show",
+    "url": "destinations/30",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-outline-secondary btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__destinations-show__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "destinations-create",
+    "url": "destinations/create",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-secondary btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__destinations-create__mobile-375.png"
+  },
+  {
+    "role": "admin",
+    "slug": "reports",
+    "url": "reports",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-danger btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-navy btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      },
+      {
+        "c": "btn btn-sm btn-outline-navy",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\admin__reports__mobile-375.png"
+  },
+  {
+    "role": "driver",
+    "slug": "driver-dashboard",
+    "url": "driver",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\driver__driver-dashboard__mobile-375.png"
+  },
+  {
+    "role": "driver",
+    "slug": "driver-shipments",
+    "url": "driver/shipments",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      },
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\driver__driver-shipments__mobile-375.png"
+  },
+  {
+    "role": "driver",
+    "slug": "driver-shipment-show",
+    "url": "driver/shipments/4",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "btn btn-outline-navy btn-sm",
+        "h": 30
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\driver__driver-shipment-show__mobile-375.png"
+  },
+  {
+    "role": "driver",
+    "slug": "driver-profile",
+    "url": "driver/profile",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [],
+    "dir": "rtl",
+    "font": "Cairo, sans-serif",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\driver__driver-profile__mobile-375.png"
+  },
+  {
+    "role": "public",
+    "slug": "login",
+    "url": "login",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [
+      {
+        "c": "pw-toggle",
+        "h": 25
+      }
+    ],
+    "dir": "rtl",
+    "font": "Cairo, \"IBM Plex Sans Arabic\", sans-seri",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\public__login__mobile-375.png"
+  },
+  {
+    "role": "public",
+    "slug": "welcome",
+    "url": "",
+    "viewport": "mobile-375",
+    "width": 375,
+    "height": 812,
+    "status": 200,
+    "vw": 375,
+    "pageOverflow": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "tiny": [],
+    "dir": "rtl",
+    "font": "Cairo, \"IBM Plex Sans Arabic\", sans-seri",
+    "consoleErrors": [],
+    "failedRequests": [],
+    "screenshot": "tests\\visual\\screenshots\\smoke\\public__welcome__mobile-375.png"
+  }
+]

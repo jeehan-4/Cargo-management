@@ -262,6 +262,162 @@
     color: var(--muted);
     font-weight: 500;
 }
+
+/* ─── Mobile Specific Optimizations (320px - 767px) ─── */
+@media (max-width: 767.98px) {
+    /* Welcome Banner */
+    .welcome-banner {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px 16px;
+        gap: 12px;
+        margin-bottom: 18px;
+        border-radius: var(--r-md);
+        box-shadow: var(--sh-sm);
+    }
+    .welcome-banner::before,
+    .welcome-banner::after {
+        display: none;
+    }
+    .wb-text {
+        width: 100%;
+    }
+    .wb-pre {
+        font-size: 0.68rem;
+        margin-bottom: 2px;
+    }
+    .wb-title {
+        font-size: 1.28rem;
+        margin-bottom: 4px;
+        line-height: 1.25;
+    }
+    .wb-subtitle {
+        font-size: 0.78rem;
+        line-height: 1.35;
+        margin-bottom: 2px;
+    }
+    .wb-date-badge {
+        display: inline-flex;
+        margin-top: 6px;
+        padding: 4px 10px;
+        font-size: 0.72rem;
+        border-radius: 20px;
+    }
+    .wb-icon-deco {
+        display: none !important;
+    }
+    .wb-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        justify-content: stretch;
+        margin-top: 4px;
+    }
+    .wb-actions .btn {
+        flex: 1 1 50%;
+        justify-content: center;
+        text-align: center;
+        padding: 8px 8px;
+        font-size: 0.76rem;
+        white-space: nowrap;
+    }
+
+    /* Stat Cards (2 per row, equal height, no broken words) */
+    .stats-section .row > div > a {
+        display: block;
+        height: 100%;
+    }
+    .stat-card {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        justify-content: space-between !important;
+        padding: 12px 12px !important;
+        gap: 8px !important;
+        height: 100% !important;
+        min-height: 126px !important;
+        border-radius: var(--r-sm) !important;
+    }
+    .stat-icon {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 1.1rem !important;
+        border-radius: 8px !important;
+        margin-bottom: 2px;
+    }
+    .stat-body {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+    .stat-label {
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
+        margin-bottom: 2px !important;
+        line-height: 1.3 !important;
+        white-space: normal !important;
+        word-break: normal !important;
+        color: var(--muted) !important;
+    }
+    .stat-value {
+        font-size: 1.45rem !important;
+        font-weight: 900 !important;
+        line-height: 1.1 !important;
+        margin-bottom: 3px !important;
+    }
+    .stat-meta {
+        font-size: 0.68rem !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    /* Action Alert */
+    .alert-card {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        padding: 12px 14px !important;
+        gap: 10px !important;
+    }
+    .alert-card .btn {
+        width: 100% !important;
+        justify-content: center !important;
+        margin-left: 0 !important;
+    }
+
+    /* Day Summary Grid */
+    .day-summary-row {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+        padding: 12px 12px !important;
+    }
+    .day-stat {
+        padding: 10px 6px !important;
+    }
+    .day-stat-num {
+        font-size: 1.45rem !important;
+    }
+    .day-stat-label {
+        font-size: 0.68rem !important;
+    }
+
+    /* Chart & Reports */
+    .report-card {
+        padding: 14px 14px !important;
+        gap: 12px !important;
+    }
+    .report-icon {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 1.3rem !important;
+    }
+    .report-title {
+        font-size: 0.86rem !important;
+    }
+    .report-sub {
+        font-size: 0.72rem !important;
+    }
+}
 </style>
 @endpush
 
@@ -286,7 +442,7 @@
             <i class="bi bi-plus-lg"></i> إضافة شحنة جديدة
         </a>
         <a href="{{ route('reports.export') }}" class="btn btn-sm" style="background:rgba(255,255,255,0.10);color:#fff;border:1px solid rgba(255,255,255,0.18);">
-            <i class="bi bi-file-earmark-pdf"></i> تقرير PDF
+            <i class="bi bi-file-earmark-excel"></i> تقرير Excel
         </a>
     </div>
 </div>
@@ -760,7 +916,7 @@
                         <i class="bi bi-eye"></i> عرض
                     </a>
                     <a href="{{ route('reports.export') }}" class="btn btn-sm btn-gold">
-                        <i class="bi bi-file-earmark-pdf"></i> PDF
+                        <i class="bi bi-file-earmark-excel"></i> Excel
                     </a>
                 </div>
             </div>
@@ -801,7 +957,7 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="{{ asset("vendor/chartjs/chart.umd.min.js") }}"></script>
 <script>
 (function () {
     /* — Welcome date — */
@@ -811,8 +967,14 @@
     });
 
     /* — Chart — */
-    const labels = {!! json_encode(array_column($chartData, 'label')) !!};
-    const data   = {!! json_encode(array_column($chartData, 'count')) !!};
+    const cssVars = getComputedStyle(document.documentElement);
+    const palette = {
+        accent:  cssVars.getPropertyValue('--accent').trim(),
+        primary: cssVars.getPropertyValue('--primary').trim(),
+        muted:   cssVars.getPropertyValue('--muted').trim(),
+    };
+    const labels = @json(array_column($chartData, 'label'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP);
+    const data   = @json(array_column($chartData, 'count'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP);
     const ctx = document.getElementById('shipmentsChart');
     if (ctx) {
         new Chart(ctx, {
@@ -831,7 +993,7 @@
                         gradient.addColorStop(1, 'rgba(65,90,102,0.20)');
                         return gradient;
                     },
-                    borderColor: '#C7A667',
+                    borderColor: palette.accent,
                     borderWidth: 2,
                     borderRadius: 8,
                     borderSkipped: false,
@@ -845,8 +1007,8 @@
                     legend: { display: false },
                     tooltip: {
                         rtl: true,
-                        backgroundColor: '#202833',
-                        titleColor: '#C7A667',
+                        backgroundColor: palette.primary,
+                        titleColor: palette.accent,
                         bodyColor: '#fff',
                         borderColor: 'rgba(199,166,103,0.30)',
                         borderWidth: 1,
@@ -860,12 +1022,12 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: { stepSize: 1, font: { family: 'Cairo', size: 12 }, color: '#8A96A3' },
+                        ticks: { stepSize: 1, font: { family: 'Cairo', size: 12 }, color: palette.muted },
                         grid: { color: 'rgba(65,90,102,0.06)', drawBorder: false }
                     },
                     x: {
                         grid: { display: false },
-                        ticks: { font: { family: 'Cairo', size: 12 }, color: '#8A96A3' }
+                        ticks: { font: { family: 'Cairo', size: 12 }, color: palette.muted }
                     }
                 }
             }

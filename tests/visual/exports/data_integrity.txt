@@ -1,0 +1,28 @@
+== DB truth ==
+total shipments = 7
+  status pending = 4
+  status delivered = 1
+  status failed = 1
+  status archived = 1
+
+== Conflict checks (expect 0) ==
+active shipment with NO driver = 0
+delivered shipment with NULL delivered_at = 0
+in_transit/delivered with NULL started_at = 0
+assigned with NULL assigned_at = 0
+busy drivers with no active shipment = 0
+available drivers WITH active shipment = 0
+
+== ReportService(all) vs DB ==
+summary.registered=7 vs DB total=7  OK
+summary.delivered=1 vs DB delivered=1  OK
+summary.failed=1 vs DB failed=1  OK
+allTouched rows=7 vs DB total=7  OK
+
+== driverSummary vs DB ==
+driver#1 محمد السائق: report total=3/del=1 vs DB total=3/del=1  OK
+
+== Password hashing ==
+user#1 admin@sl.com bcrypt/argon2 prefix=YES
+user#2 driver@cargo.test bcrypt/argon2 prefix=YES
+user#3 ghith@gmail.com bcrypt/argon2 prefix=YES

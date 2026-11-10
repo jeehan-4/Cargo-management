@@ -12,6 +12,7 @@
 <div class="row justify-content-center">
 <div class="col-lg-8">
 <div class="form-card">
+    <h6 class="form-card-title"><i class="bi bi-pencil-square"></i> تعديل بيانات الشحنة</h6>
     <form method="POST" action="{{ route('shipments.update',$shipment) }}">
         @csrf @method('PUT')
         <div class="row g-3">
@@ -80,8 +81,8 @@
                 <textarea name="notes" class="form-control" rows="3">{{ old('notes',$shipment->notes) }}</textarea>
             </div>
 
-            <div class="col-12 d-flex gap-2 pt-2 border-top">
-                <button type="submit" class="btn btn-primary px-4">
+            <div class="col-12 form-actions pt-2 border-top">
+                <button type="submit" class="btn btn-navy px-4">
                     <i class="bi bi-save me-1"></i> حفظ التعديلات
                 </button>
                 <a href="{{ route('shipments.show',$shipment) }}" class="btn btn-outline-secondary">إلغاء</a>

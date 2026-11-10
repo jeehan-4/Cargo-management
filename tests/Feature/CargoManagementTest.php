@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Destination;
 use App\Models\Driver;
+use App\Models\Setting;
 use App\Models\Shipment;
 use App\Models\Truck;
 use App\Models\User;
@@ -86,8 +87,11 @@ class CargoManagementTest extends TestCase
         // Store
         $uniquePhone = '05' . rand(10000000, 99999999);
         $uniqueLic = 'LIC-' . rand(10000, 99999);
+        $uniqueEmail = 'driver' . rand(1000, 9999) . '@cargo.test';
         $response = $this->actingAs($this->user)->post(route('drivers.store'), [
             'name' => 'محمد السائق',
+            'email' => $uniqueEmail,
+            'password' => 'password123',
             'phone' => $uniquePhone,
             'license_number' => $uniqueLic,
             'status' => 'available',
@@ -213,10 +217,11 @@ class CargoManagementTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('reports.index'));
         $response->assertStatus(200);
 
-        // Export PDF
+        // Export Excel (.xlsx)
         $response = $this->actingAs($this->user)->get(route('reports.export'));
         $response->assertStatus(200);
-        $this->assertEquals('application/pdf', $response->headers->get('content-type'));
+        $this->assertEquals('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $response->headers->get('content-type'));
+        $this->assertStringStartsWith('PK', $response->getContent());
     }
 
     public function test_activity_logs_recorded(): void
@@ -233,5 +238,146 @@ class CargoManagementTest extends TestCase
             'action_type' => 'create_driver',
             'driver_id' => $driver->id,
         ]);
+    }
+
+    public function test_settings_page_renders(): void
+    {
+        $response = $this->actingAs($this->user)->get(route('settings.edit'));
+        $response->assertStatus(200);
+        $response->assertSee('إعدادات النظام');
+    }
+
+    public function test_settings_update_persists(): void
+    {
+        $response = $this->actingAs($this->user)->put(route('settings.update'), [
+            'company_name'        => 'شركة الاختبار',
+            'company_phone'       => '01234567',
+            'company_address'     => 'الحديدة',
+            'default_origin_port' => 'ميناء عدن',
+            'report_footer'       => 'تذييل تجريبي',
+        ]);
+        $response->assertRedirect(route('settings.edit'));
+        $response->assertSessionHas('success');
+
+        $this->assertDatabaseHas('settings', ['key' => 'company_name', 'value' => 'شركة الاختبار']);
+        $this->assertEquals('ميناء عدن', Setting::get('default_origin_port'));
+
+        $this->actingAs($this->user)->get(route('settings.edit'))->assertSee('شركة الاختبار');
+    }
+
+    public function test_settings_validation_requires_company_name(): void
+    {
+        $response = $this->actingAs($this->user)->put(route('settings.update'), [
+            'company_name'        => '',
+            'default_origin_port' => '',
+        ]);
+        $response->assertSessionHasErrors(['company_name', 'default_origin_port']);
+    }
+
+    public function test_default_origin_port_applied_to_create_form(): void
+    {
+        Setting::set('default_origin_port', 'ميناء المخا');
+        $response = $this->actingAs($this->user)->get(route('shipments.create'));
+        $response->assertStatus(200);
+        $response->assertSee('ميناء المخا');
+    }
+
+    public function test_activity_logs_page_renders_and_filters(): void
+    {
+        $driver = Driver::create([
+            'name' => 'سائق السجل',
+            'phone' => '05' . rand(10000000, 99999999),
+            'license_number' => 'LIC-' . rand(10000, 99999),
+            'status' => 'available',
+        ]);
+
+        $response = $this->actingAs($this->user)->get(route('activity-logs.index'));
+        $response->assertStatus(200);
+        $response->assertSee('سائق السجل');
+
+        $filtered = $this->actingAs($this->user)->get(route('activity-logs.index', ['action_type' => 'create_driver']));
+        $filtered->assertStatus(200);
+    }
+
+    public function test_shipments_export_is_xlsx(): void
+    {
+        $response = $this->actingAs($this->user)->get(route('shipments.export'));
+        $response->assertStatus(200);
+        $this->assertEquals('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $response->headers->get('content-type'));
+        $this->assertStringStartsWith('PK', $response->getContent());
+    }
+
+    public function test_reassign_preserves_previous_driver_in_history(): void
+    {
+        $d1 = Driver::create(['name' => 'سائق أول', 'phone' => '05' . rand(10000000, 99999999), 'license_number' => 'LIC-' . rand(10000, 99999), 'status' => 'available']);
+        $d2 = Driver::create(['name' => 'سائق ثانٍ', 'phone' => '05' . rand(10000000, 99999999), 'license_number' => 'LIC-' . rand(10000, 99999), 'status' => 'available']);
+        $dest = Destination::create(['name' => 'وجهة الإسناد', 'city' => 'الحديدة', 'is_active' => true]);
+        $shipment = Shipment::create([
+            'shipment_number' => 'SHIP-REASSIGN-' . rand(1000, 9999),
+            'cargo_type' => 'رز', 'unit' => 'طن', 'origin_port' => 'ميناء الحديدة',
+            'destination_id' => $dest->id, 'status' => 'pending',
+        ]);
+
+        $this->actingAs($this->user)->post(route('shipments.assign', $shipment), ['driver_id' => $d1->id]);
+        $this->actingAs($this->user)->post(route('shipments.assign', $shipment), ['driver_id' => $d2->id]);
+
+        $shipment->refresh(); $d1->refresh(); $d2->refresh();
+        $this->assertEquals($d2->id, $shipment->driver_id);
+        $this->assertEquals('available', $d1->status);
+        $this->assertEquals('busy', $d2->status);
+
+        $log = \App\Models\ShipmentLog::where('shipment_id', $shipment->id)->where('notes', 'like', '%تغيير السائق%')->first();
+        $this->assertNotNull($log);
+        $this->assertStringContainsString($d1->name, $log->notes);
+        $this->assertStringContainsString($d2->name, $log->notes);
+    }
+
+    private function makeShipment(string $status, ?int $driverId = null): Shipment
+    {
+        $dest = Destination::first() ?? Destination::create(['name' => 'وجهة', 'city' => 'الحديدة', 'is_active' => true]);
+        return Shipment::create([
+            'shipment_number' => 'SHIP-T-' . rand(10000, 99999),
+            'cargo_type' => 'رز', 'unit' => 'طن', 'origin_port' => 'ميناء الحديدة',
+            'destination_id' => $dest->id, 'status' => $status, 'driver_id' => $driverId,
+            'assigned_at' => $driverId ? now() : null,
+            'delivered_at' => $status === 'delivered' ? now() : null,
+        ]);
+    }
+
+    public function test_cancel_releases_driver_and_logs(): void
+    {
+        $driver = Driver::create(['name' => 'سائق الإلغاء', 'phone' => '05' . rand(10000000, 99999999), 'license_number' => 'LIC-' . rand(10000, 99999), 'status' => 'busy']);
+        $shipment = $this->makeShipment('assigned', $driver->id);
+
+        $response = $this->actingAs($this->user)->post(route('shipments.cancel', $shipment), ['reason' => 'اختبار']);
+        $response->assertSessionHas('success');
+
+        $shipment->refresh(); $driver->refresh();
+        $this->assertEquals('cancelled', $shipment->status);
+        $this->assertEquals('available', $driver->status);
+        $this->assertDatabaseHas('shipment_logs', ['shipment_id' => $shipment->id, 'new_status' => 'cancelled']);
+    }
+
+    public function test_cannot_cancel_delivered_shipment(): void
+    {
+        $shipment = $this->makeShipment('delivered', null);
+        $response = $this->actingAs($this->user)->post(route('shipments.cancel', $shipment));
+        $response->assertSessionHas('error');
+        $shipment->refresh();
+        $this->assertEquals('delivered', $shipment->status);
+    }
+
+    public function test_archive_completed_shipment_and_block_active(): void
+    {
+        $delivered = $this->makeShipment('delivered', null);
+        $this->actingAs($this->user)->post(route('shipments.archive', $delivered))->assertSessionHas('success');
+        $delivered->refresh();
+        $this->assertEquals('archived', $delivered->status);
+        $this->assertDatabaseHas('shipment_logs', ['shipment_id' => $delivered->id, 'new_status' => 'archived']);
+
+        $active = $this->makeShipment('in_transit', null);
+        $this->actingAs($this->user)->post(route('shipments.archive', $active))->assertSessionHas('error');
+        $active->refresh();
+        $this->assertEquals('in_transit', $active->status);
     }
 }

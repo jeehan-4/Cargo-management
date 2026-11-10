@@ -6,6 +6,8 @@ use App\Models\Destination;
 use App\Models\Driver;
 use App\Models\Shipment;
 use App\Models\ShipmentLog;
+use App\Models\Setting;
+use App\Support\XlsxWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -66,12 +68,25 @@ class ShipmentController extends Controller
         }
 
         $data['status']          = 'pending';
-        $data['shipment_number'] = 'TEMP';
+        $data['shipment_number'] = 'TEMP-' . strtoupper(substr(md5(uniqid('', true)), 0, 10));
 
         $shipment = Shipment::create($data);
 
-        // تحديث رقم الشحنة ليكون مرتبطاً بالـ ID
-        $shipment->update(['shipment_number' => (string) $shipment->id]);
+        // توليد رقم الشحنة النهائي بصيغة SHIP-YYYY-XXXX مع معالجة أي تكرار
+        $number = null;
+        for ($attempt = 0; $attempt < 20; $attempt++) {
+            $candidate = Shipment::generateNumber();
+            if (! Shipment::where('shipment_number', $candidate)->exists()) {
+                $number = $candidate;
+                break;
+            }
+        }
+
+        if (! $number) {
+            $number = 'SHIP-' . now()->year . '-' . str_pad((string) $shipment->id, 4, '0', STR_PAD_LEFT);
+        }
+
+        $shipment->update(['shipment_number' => $number]);
 
         ShipmentLog::create([
             'shipment_id' => $shipment->id,
@@ -328,46 +343,35 @@ class ShipmentController extends Controller
 
     public function exportExcel()
     {
-        $filename = "shipments_" . date('Y-m-d') . ".csv";
-        $shipments = Shipment::with(['destination', 'driver'])->get();
+        $filename  = 'shipments_' . date('Y-m-d') . '.xlsx';
+        $shipments = Shipment::with(['destination', 'driver'])->orderBy('created_at', 'desc')->get();
 
-        $headers = [
-            "Content-type"        => "text/csv; charset=UTF-8",
-            "Content-Disposition" => "attachment; filename=$filename",
-            "Pragma"              => "no-cache",
-            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-            "Expires"             => "0"
-        ];
+        $rows = [[
+            ['v' => 'رقم الشحنة', 's' => 'header'], ['v' => 'نوع البضاعة', 's' => 'header'],
+            ['v' => 'الكمية', 's' => 'header'], ['v' => 'الوزن', 's' => 'header'],
+            ['v' => 'ميناء المنشأ', 's' => 'header'], ['v' => 'الوجهة', 's' => 'header'],
+            ['v' => 'السائق', 's' => 'header'], ['v' => 'الحالة', 's' => 'header'],
+            ['v' => 'تاريخ الإنشاء', 's' => 'header'],
+        ]];
 
-        $callback = function() use($shipments) {
-            $file = fopen('php://output', 'w');
-            // إضافة دعم اللغة العربية في ملفات إكسل
-            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
-            
-            // رؤوس الأعمدة
-            fputcsv($file, ['رقم الشحنة', 'نوع البضاعة', 'الكمية', 'الوزن', 'ميناء المنشأ', 'الوجهة', 'السائق', 'الحالة', 'تاريخ الإنشاء']);
+        foreach ($shipments as $s) {
+            $rows[] = [
+                ['v' => $s->shipment_number, 's' => 'cell'],
+                ['v' => $s->cargo_type, 's' => 'cell'],
+                ['v' => $s->quantity ? $s->quantity . ' ' . $s->unit : '—', 's' => 'cell'],
+                ['v' => $s->weight ? $s->weight . ' طن' : '—', 's' => 'cell'],
+                ['v' => $s->origin_port, 's' => 'cell'],
+                ['v' => $s->destination?->name ?? '—', 's' => 'cell'],
+                ['v' => $s->driver?->name ?? 'غير معين', 's' => 'cell'],
+                ['v' => Shipment::statusLabel($s->status), 's' => 'cell'],
+                ['v' => $s->created_at ? $s->created_at->format('Y-m-d') : '—', 's' => 'cell'],
+            ];
+        }
 
-            // تعبئة البيانات
-            foreach ($shipments as $s) {
-                // إظهار التاريخ فقط بدون الوقت (السنة-الشهر-اليوم)
-                $formattedDate = $s->created_at ? "\t" . $s->created_at->format('Y-m-d') : '—';
+        $xlsx = new XlsxWriter();
+        $xlsx->addSheet('الشحنات', $rows, [20, 16, 14, 12, 20, 20, 20, 18, 16], true);
 
-                fputcsv($file, [
-                    $s->shipment_number,
-                    $s->cargo_type,
-                    $s->quantity ? $s->quantity . ' ' . $s->unit : '—',
-                    $s->weight ? $s->weight . ' طن' : '—',
-                    $s->origin_port,
-                    $s->destination?->name ?? '—',
-                    $s->driver?->name ?? 'غير معين',
-                    Shipment::statusLabel($s->status),
-                    $formattedDate
-                ]);
-            }
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        return $xlsx->download($filename);
     }
 
     public function board(Request $request)
@@ -391,7 +395,11 @@ class ShipmentController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('shipments.board', compact('shipments', 'drivers'));
+        $busyDrivers = Driver::where('status', 'busy')
+            ->orWhereHas('shipments', fn($q) => $q->whereIn('status', ['assigned', 'in_transit']))
+            ->count();
+
+        return view('shipments.board', compact('shipments', 'drivers', 'busyDrivers'));
     }
     /**
      * عرض صفحة تعديل الشحنة.

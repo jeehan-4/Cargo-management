@@ -40,7 +40,7 @@ class DriverController extends Controller
     $request->validate([
         'name'           => 'required|string|max:255',
         'email'          => 'required|string|email|max:255|unique:users',
-        'password'       => 'required|string|min:6',
+        'password'       => 'required|string|min:8',
         'phone'          => 'required|string|unique:drivers,phone',
         'license_number' => 'required|string|unique:drivers,license_number',
         'national_id'    => 'nullable|string|max:50',
@@ -105,13 +105,20 @@ class DriverController extends Controller
             'truck_id'       => 'nullable|exists:trucks,id',
         ]);
 
-        $driver->update($data);
+        DB::transaction(function () use ($driver, $data, $request) {
+            $driver->update($data);
 
-        // Detach old truck
-        Truck::where('driver_id', $driver->id)->update(['driver_id' => null]);
-        if ($request->filled('truck_id')) {
-            Truck::where('id', $request->truck_id)->update(['driver_id' => $driver->id]);
-        }
+            // مزامنة اسم السائق في حساب تسجيل الدخول المرتبط
+            if ($driver->user) {
+                $driver->user->update(['name' => $data['name']]);
+            }
+
+            // Detach old truck
+            Truck::where('driver_id', $driver->id)->update(['driver_id' => null]);
+            if ($request->filled('truck_id')) {
+                Truck::where('id', $request->truck_id)->update(['driver_id' => $driver->id]);
+            }
+        });
 
         return redirect()->route('drivers.index')->with('success', 'تم تحديث بيانات السائق بنجاح');
     }
@@ -121,7 +128,19 @@ class DriverController extends Controller
         if ($driver->activeShipments()->exists()) {
             return back()->with('error', 'لا يمكن حذف سائق لديه شحنات نشطة');
         }
-        $driver->delete();
-        return redirect()->route('drivers.index')->with('success', 'تم حذف السائق');
+
+        DB::transaction(function () use ($driver) {
+            // فك ارتباط الشاحنة
+            Truck::where('driver_id', $driver->id)->update(['driver_id' => null]);
+
+            // حذف حساب تسجيل الدخول المرتبط حتى لا يبقى حساب يتيم يمكنه الدخول
+            $user = $driver->user;
+            $driver->delete();
+            if ($user) {
+                $user->delete();
+            }
+        });
+
+        return redirect()->route('drivers.index')->with('success', 'تم حذف السائق وحساب تسجيل الدخول المرتبط به');
     }
 }

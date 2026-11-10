@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\TruckController;
 use App\Http\Controllers\Driver\DashboardController as DriverDashboardController;
@@ -58,6 +60,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Reports
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
+
+    // Activity Logs
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
+
+    // Settings
+    Route::get('/settings', [SettingsController::class, 'edit'])->name('settings.edit');
+    Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
 });
 
 // ───────────────────────────────────────────────

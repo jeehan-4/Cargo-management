@@ -191,6 +191,8 @@ class FullAuditTest extends TestCase
         // Create
         $response = $this->actingAs($this->user)->post(route('drivers.store'), [
             'name' => 'محمد أحمد',
+            'email' => 'driver.test@cargo.test',
+            'password' => 'password123',
             'phone' => '0501234567',
             'license_number' => 'LIC-001',
             'status' => 'available',
@@ -486,14 +488,15 @@ class FullAuditTest extends TestCase
     }
 
     /* ════════════════════════════════════════════
-       11. تصدير تقارير PDF
+       11. تصدير تقارير Excel
     ════════════════════════════════════════════ */
 
-    public function test_export_pdf(): void
+    public function test_export_excel(): void
     {
         $response = $this->actingAs($this->user)->get(route('reports.export'));
         $response->assertStatus(200);
-        $this->assertStringContainsString('application/pdf', $response->headers->get('content-type'));
+        $this->assertStringContainsString('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $response->headers->get('content-type'));
+        $this->assertStringStartsWith('PK', $response->getContent());
     }
 
     /* ════════════════════════════════════════════
@@ -631,5 +634,104 @@ class FullAuditTest extends TestCase
         $response = $this->get('/register');
         // Should NOT return 200 (either 404 or redirect)
         $this->assertNotEquals(200, $response->getStatusCode());
+    }
+
+    /* ════════════════════════════════════════════
+       17. تغيير السائق المسند للشحنة
+    ════════════════════════════════════════════ */
+
+    public function test_change_driver_reassign_shipment(): void
+    {
+        $dest = Destination::create(['name' => 'صنعاء', 'city' => 'صنعاء', 'is_active' => true]);
+
+        $driverA = Driver::create([
+            'name' => 'سائق أول',
+            'phone' => '0501234567',
+            'license_number' => 'LIC-CHG-1',
+            'status' => 'busy',
+        ]);
+        $driverB = Driver::create([
+            'name' => 'سائق ثان',
+            'phone' => '0507654321',
+            'license_number' => 'LIC-CHG-2',
+            'status' => 'available',
+        ]);
+
+        $shipment = Shipment::create([
+            'shipment_number' => 'SHIP-2026-CHG',
+            'cargo_type' => 'شحنة تغيير السائق',
+            'unit' => 'طرد',
+            'origin_port' => 'الميناء',
+            'destination_id' => $dest->id,
+            'driver_id' => $driverA->id,
+            'status' => 'assigned',
+            'assigned_at' => now(),
+        ]);
+
+        // إعادة إسناد الشحنة لسائق آخر
+        $response = $this->actingAs($this->user)->post(route('shipments.assign', $shipment), [
+            'driver_id' => $driverB->id,
+            'reason' => 'تغيير السائق لظروف طارئة',
+        ]);
+
+        $response->assertSessionHas('success');
+
+        $shipment->refresh();
+        $this->assertEquals($driverB->id, $shipment->driver_id);
+        $this->assertEquals('assigned', $shipment->status);
+
+        // السائق الجديد يصبح مشغولاً والسائق القديم يتحرر
+        $driverA->refresh();
+        $driverB->refresh();
+        $this->assertEquals('available', $driverA->status);
+        $this->assertEquals('busy', $driverB->status);
+
+        // توثيق التغيير في سجل العمليات
+        $this->assertDatabaseHas('shipment_logs', [
+            'shipment_id' => $shipment->id,
+            'new_status'  => 'assigned',
+        ]);
+        $log = ShipmentLog::where('shipment_id', $shipment->id)->latest()->first();
+        $this->assertStringContainsString('تم تغيير السائق', $log->notes);
+        $this->assertStringContainsString($driverA->name, $log->notes);
+        $this->assertStringContainsString($driverB->name, $log->notes);
+    }
+
+    /* ════════════════════════════════════════════
+       18. إلغاء إسناد شحنة وتحرير السائق
+    ════════════════════════════════════════════ */
+
+    public function test_unassign_shipment_releases_driver(): void
+    {
+        $dest = Destination::create(['name' => 'تعز', 'city' => 'تعز', 'is_active' => true]);
+
+        $driver = Driver::create([
+            'name' => 'سائق للإلغاء',
+            'phone' => '0501119999',
+            'license_number' => 'LIC-UN-1',
+            'status' => 'busy',
+        ]);
+
+        $shipment = Shipment::create([
+            'shipment_number' => 'SHIP-2026-UN',
+            'cargo_type' => 'شحنة إلغاء إسناد',
+            'unit' => 'طن',
+            'origin_port' => 'الميناء',
+            'destination_id' => $dest->id,
+            'driver_id' => $driver->id,
+            'status' => 'assigned',
+            'assigned_at' => now(),
+        ]);
+
+        $response = $this->actingAs($this->user)->post(route('shipments.unassign', $shipment));
+
+        $response->assertSessionHas('success');
+
+        $shipment->refresh();
+        $driver->refresh();
+        $this->assertNull($shipment->driver_id);
+        $this->assertNull($shipment->assigned_at);
+        $this->assertEquals('pending', $shipment->status);
+        $this->assertEquals('available', $driver->status);
     }
 }

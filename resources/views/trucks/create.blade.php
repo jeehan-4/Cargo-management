@@ -7,6 +7,7 @@
 @section('content')
 <div class="row justify-content-center"><div class="col-lg-7">
 <div class="form-card">
+    <h6 class="form-card-title"><i class="bi bi-truck-front"></i> بيانات الشاحنة الجديدة</h6>
     <form method="POST" action="{{ route('trucks.store') }}">
         @csrf
         <div class="row g-3">
@@ -48,7 +49,7 @@
                 <label class="form-label">ملاحظات</label>
                 <textarea name="notes" class="form-control" rows="2">{{ old('notes') }}</textarea>
             </div>
-            <div class="col-12 d-flex gap-2 pt-2">
+            <div class="col-12 form-actions pt-2">
                 <button type="submit" class="btn btn-primary px-4"><i class="bi bi-save me-1"></i> حفظ</button>
                 <a href="{{ route('trucks.index') }}" class="btn btn-outline-secondary">إلغاء</a>
             </div>

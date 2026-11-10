@@ -1,0 +1,10 @@
+import { chromium } from 'playwright-core';
+const CHROME='C:/Program Files (x86)/Google/Chrome/Application/chrome.exe';
+const browser=await chromium.launch({executablePath:CHROME,headless:true,args:['--no-sandbox']});
+const page=await (await browser.newContext({viewport:{width:375,height:812}})).newPage();
+await page.goto('http://localhost/cargo-management/public/login');
+await page.waitForLoadState('networkidle');
+const h=await page.locator('.pw-toggle').evaluate(e=>e.getBoundingClientRect().height);
+console.log('pw-toggle height:', h);
+await page.screenshot({path:'tests/visual/screenshots/after/targeted__login-fresh__mobile-375.png'});
+await browser.close();

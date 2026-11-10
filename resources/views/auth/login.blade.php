@@ -4,27 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول — نظام إدارة الشحنات</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset("vendor/bootstrap/bootstrap.rtl.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("vendor/bootstrap-icons/bootstrap-icons.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("css/design-system.css") }}">
     <style>
-        :root {
-            --primary:   #202833;
-            --secondary: #415A66;
-            --accent:    #C7A667;
-            --bg:        #F7F5EF;
-            --surface:   #EAE0C8;
-            --border:    rgba(65, 90, 102, 0.15);
-            --muted:     #8A96A3;
-            --r-sm:      10px;
-            --r-md:      16px;
-            --tr:        all .22s ease;
-        }
+        
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
             background-color: var(--bg);
             color: var(--primary);
             min-height: 100vh;
@@ -124,7 +112,7 @@
             padding: 12px 42px 12px 14px;
             border: 1.5px solid var(--border);
             border-radius: var(--r-sm);
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
             font-size: 0.9rem;
             color: var(--primary);
             background: #ffffff;
@@ -143,7 +131,7 @@
 
         .pw-toggle {
             position: absolute;
-            left: 14px;
+            left: 8px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
@@ -151,7 +139,12 @@
             color: var(--muted);
             font-size: 0.95rem;
             cursor: pointer;
-            padding: 0;
+            padding: 6px;
+            min-width: 36px;
+            min-height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             transition: var(--tr);
         }
 
@@ -195,7 +188,7 @@
             color: #ffffff;
             border: none;
             border-radius: var(--r-sm);
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
             font-size: 0.95rem;
             font-weight: 800;
             cursor: pointer;

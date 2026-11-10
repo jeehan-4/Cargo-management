@@ -8,14 +8,15 @@
 @section('content')
 <div class="row justify-content-center">
 <div class="col-lg-8">
-<div class="form-card p-4 shadow-sm" style="background: #FFFFFF; border-radius: 12px;">
+<div class="form-card">
+    <h6 class="form-card-title"><i class="bi bi-person-plus"></i> إضافة سائق وإنشاء حساب تسجيل الدخول</h6>
     <form method="POST" action="{{ route('drivers.store') }}">
         @csrf
         <div class="row g-3">
             
             {{-- معلومات الحساب للدخول --}}
             <div class="col-12">
-                <h6 class="fw-800 text-dark mb-2 pb-2 border-bottom" style="color: #202833;"><i class="bi bi-shield-lock me-1 text-warning" style="color: #C7A667 !important;"></i> بيانات تسجيل الدخول</h6>
+                <h6 class="fw-800 mb-2 pb-2 border-bottom text-navy"><i class="bi bi-shield-lock me-1 text-accent"></i> بيانات تسجيل الدخول</h6>
             </div>
 
             <div class="col-md-6">
@@ -32,7 +33,7 @@
 
             {{-- البيانات الشخصية --}}
             <div class="col-12 mt-4">
-                <h6 class="fw-800 text-dark mb-2 pb-2 border-bottom" style="color: #202833;"><i class="bi bi-person-badge me-1" style="color: #C7A667 !important;"></i> البيانات الشخصية والمهنية</h6>
+                <h6 class="fw-800 mb-2 pb-2 border-bottom text-navy"><i class="bi bi-person-badge me-1 text-accent"></i> البيانات الشخصية والمهنية</h6>
             </div>
 
             <div class="col-md-6">
@@ -82,9 +83,9 @@
                 <textarea name="notes" class="form-control" rows="3">{{ old('notes') }}</textarea>
             </div>
 
-            <div class="col-12 d-flex gap-2 pt-3">
-                <button type="submit" class="btn text-white px-4 fw-700" style="background-color: #202833; border-radius: 8px;"><i class="bi bi-save me-1"></i> حفظ السائق وإنشاء الحساب</button>
-                <a href="{{ route('drivers.index') }}" class="btn btn-outline-secondary px-4 fw-700" style="border-radius: 8px;">إلغاء</a>
+            <div class="col-12 form-actions pt-3">
+                <button type="submit" class="btn btn-navy px-4"><i class="bi bi-save me-1"></i> حفظ السائق وإنشاء الحساب</button>
+                <a href="{{ route('drivers.index') }}" class="btn btn-outline-secondary px-4">إلغاء</a>
             </div>
         </div>
     </form>

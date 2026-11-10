@@ -78,6 +78,8 @@ class DriverDashboardTest extends TestCase
 
         $response = $this->actingAs($this->adminUser)->post(route('drivers.store'), [
             'name'           => 'سالم الدوسري',
+            'email'          => 'salem.test@cargo.test',
+            'password'       => 'password123',
             'phone'          => '0507771122',
             'license_number' => 'DL-TEST-777',
             'status'         => 'available',
@@ -268,12 +270,12 @@ class DriverDashboardTest extends TestCase
         $responseIndex = $this->actingAs($this->adminUser)->get(route('shipments.index'));
         $responseIndex->assertStatus(200);
         $responseIndex->assertSee('SHIP-ADMIN-CHECK');
-        $responseIndex->assertSee('قيد النقل');
+        $responseIndex->assertSee('قيد التوصيل');
 
         // المسؤول يرى التفاصيل والسائق المسند في صفحة الشحنة
         $responseShow = $this->actingAs($this->adminUser)->get(route('shipments.show', $shipment));
         $responseShow->assertStatus(200);
-        $responseShow->assertSee('قيد النقل');
+        $responseShow->assertSee('قيد التوصيل');
         $responseShow->assertSee($this->driver->name);
     }
 
@@ -371,12 +373,13 @@ class DriverDashboardTest extends TestCase
     // ══════════════════════════════════════════════════════
 
     /**
-     * أمان 1: محاولة الدخول إلى لوحة المسؤول بحساب سائق -> 403 Forbidden
+     * أمان 1: محاولة الدخول إلى لوحة المسؤول بحساب سائق -> يعاد توجيهه لبوابة السائق
+     * وصفحات الإدارة تعطي 403 Forbidden
      */
     public function test_driver_cannot_access_admin_dashboard(): void
     {
         $response = $this->actingAs($this->driverUser)->get(route('dashboard'));
-        $response->assertStatus(403);
+        $response->assertRedirect(route('driver.dashboard'));
 
         $responseShipments = $this->actingAs($this->driverUser)->get(route('shipments.index'));
         $responseShipments->assertStatus(403);

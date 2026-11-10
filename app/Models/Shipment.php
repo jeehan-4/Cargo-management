@@ -39,11 +39,12 @@ class Shipment extends Model
     {
         $year = now()->year;
         $last = self::whereYear('created_at', $year)
+            ->where('shipment_number', 'like', 'SHIP-%')
             ->orderBy('id', 'desc')
             ->first();
 
         $seq = $last ? ((int) substr($last->shipment_number, -4)) + 1 : 1;
-        return 'SHIP-' . $year . '-' . str_pad($seq, 4, '0', STR_PAD_LEFT);
+        return 'SHIP-' . $year . '-' . str_pad((string) $seq, 4, '0', STR_PAD_LEFT);
     }
 
     public static function statusLabel(string $status): string

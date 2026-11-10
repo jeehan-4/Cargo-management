@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام إدارة الشحنات</title>
     <!-- Bootstrap 5 RTL -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
-    <!-- FontAwesome للأيقونات -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- خط Tajawal الأنيق -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset("vendor/bootstrap/bootstrap.rtl.min.css") }}">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="{{ asset("vendor/bootstrap-icons/bootstrap-icons.min.css") }}">
+    <!-- خط Cairo -->
+    <link rel="stylesheet" href="{{ asset("css/design-system.css") }}">
     <style>
         :root {
-            --primary-dark: #202833;
-            --secondary-blue: #415A66;
-            --accent-gold: #C7A667;
-            --bg-main: #F7F5EF;
-            --surface-card: #EAE0C8;
+            --primary-dark: var(--primary);
+            --secondary-blue: var(--secondary);
+            --accent-gold: var(--accent);
+            --bg-main: var(--bg);
+            --surface-card: var(--surface);
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
             background-color: var(--primary-dark);
             color: var(--primary-dark);
             margin: 0;
@@ -199,11 +199,11 @@
 
     <!-- شريط المعاينة بأيقونات عصرية (خاص ببيئة التطوير) -->
     <div class="dev-preview-bar">
-        <span class="small fw-bold" style="color: var(--accent-gold);"><i class="fa-solid fa-laptop-code ms-1"></i> معاينة التطوير</span>
+        <span class="small fw-bold" style="color: var(--accent-gold);"><i class="bi bi-laptop ms-1"></i> معاينة التطوير</span>
         <div class="dev-preview-group">
-            <button onclick="setPreviewSize('mobile')" id="btn-mobile" title="عرض الجوال"><i class="fa-solid fa-mobile-screen"></i></button>
-            <button onclick="setPreviewSize('tablet')" id="btn-tablet" title="عرض التابلت"><i class="fa-solid fa-tablet-screen-button"></i></button>
-            <button onclick="setPreviewSize('desktop')" id="btn-desktop" class="active" title="عرض الكمبيوتر"><i class="fa-solid fa-desktop"></i></button>
+            <button onclick="setPreviewSize('mobile')" id="btn-mobile" title="عرض الجوال"><i class="bi bi-phone"></i></button>
+            <button onclick="setPreviewSize('tablet')" id="btn-tablet" title="عرض التابلت"><i class="bi bi-tablet"></i></button>
+            <button onclick="setPreviewSize('desktop')" id="btn-desktop" class="active" title="عرض الكمبيوتر"><i class="bi bi-display"></i></button>
         </div>
     </div>
 
@@ -214,17 +214,17 @@
         <nav class="navbar navbar-custom px-4">
             <div class="container-fluid max-w-lg">
                 <a class="brand-title d-flex align-items-center gap-2" href="{{ url('/') }}">
-                    <i class="fa-solid fa-truck-fast" style="color: var(--accent-gold);"></i>
+                    <i class="bi bi-truck-front-fill" style="color: var(--accent-gold);"></i>
                     <span>نظام إدارة الشحنات</span>
                 </a>
                 <div>
                     @auth
                         <a href="{{ route('home') }}" class="btn btn-sm" style="background-color: var(--accent-gold); color: var(--primary-dark); font-weight: 700; font-size: 13px; padding: 6px 16px; border-radius: 8px;">
-                            <i class="fa-solid fa-gauge-high ms-1"></i> لوحة التحكم
+                            <i class="bi bi-speedometer2 ms-1"></i> لوحة التحكم
                         </a>
                     @else
                         <a href="{{ route('login') }}" class="btn btn-sm" style="background-color: var(--primary-dark); color: #fff; font-weight: 600; font-size: 13px; padding: 6px 16px; border-radius: 8px;">
-                            <i class="fa-solid fa-right-to-bracket ms-1"></i> تسجيل الدخول
+                            <i class="bi bi-box-arrow-in-left ms-1"></i> تسجيل الدخول
                         </a>
                     @endauth
                 </div>
@@ -238,7 +238,7 @@
                     
                     <!-- شارة خفيفة راقية (بدون كلمة ذكية) -->
                     <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="background-color: var(--surface-card); border: 1px solid rgba(199,166,103,0.4);">
-                        <i class="fa-solid fa-shield-halved" style="color: var(--accent-gold); font-size: 12px;"></i>
+                        <i class="bi bi-shield-check" style="color: var(--accent-gold); font-size: 12px;"></i>
                         <span style="font-size: 12px; font-weight: 700; color: var(--primary-dark);">منظومة لوجستية وموثوقة</span>
                     </div>
 
@@ -256,12 +256,12 @@
                         @auth
                             <a href="{{ route('home') }}" class="btn-login-custom">
                                 <span>الانتقال إلى لوحة التحكم</span>
-                                <i class="fa-solid fa-arrow-left"></i>
+                                <i class="bi bi-arrow-left"></i>
                             </a>
                         @else
                             <a href="{{ route('login') }}" class="btn-login-custom">
                                 <span>تسجيل الدخول إلى النظام</span>
-                                <i class="fa-solid fa-arrow-left"></i>
+                                <i class="bi bi-arrow-left"></i>
                             </a>
                         @endauth
                     </div>
@@ -274,7 +274,7 @@
                 <div class="col-md-4">
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fa-solid fa-boxes-stacked"></i>
+                            <i class="bi bi-box-seam"></i>
                         </div>
                         <h3 class="feature-title">تنظيم الشحنات</h3>
                         <p class="feature-text">أرشفة ومتابعة دقيقة لكل الشحنات الواردة ومنع التداخل بكل مرونة.</p>
@@ -283,7 +283,7 @@
                 <div class="col-md-4">
                     <div class="feature-card">
                         <div class="feature-icon" style="color: var(--accent-gold);">
-                            <i class="fa-solid fa-id-card-clip"></i>
+                            <i class="bi bi-person-badge"></i>
                         </div>
                         <h3 class="feature-title">إدارة السائقين</h3>
                         <p class="feature-text">توزيع ذكي للمهام ومنع تكليف السائق برحلات متعارضة في نفس الوقت.</p>
@@ -292,7 +292,7 @@
                 <div class="col-md-4">
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fa-solid fa-chart-line"></i>
+                            <i class="bi bi-bar-chart-line"></i>
                         </div>
                         <h3 class="feature-title">تقارير العمليات</h3>
                         <p class="feature-text">متابعة حالات التوصيل وسجل العمليات بلحظات معدودة وبشكل فوري.</p>
@@ -328,6 +328,6 @@
             }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset("vendor/bootstrap/bootstrap.bundle.min.js") }}"></script>
 </body>
 </html>

@@ -28,7 +28,7 @@
             <tbody>
                 @forelse($trucks as $t)
                 <tr>
-                    <td class="fw-800" dir="ltr" style="color:var(--secondary-blue);">
+                    <td class="fw-800" dir="ltr" style="color:var(--secondary);">
                         <i class="bi bi-truck me-1 text-muted"></i>{{ $t->plate_number }}
                     </td>
                     <td>{{ $t->type }}</td>
@@ -37,7 +37,7 @@
                         @if($t->driver)
                             <a href="{{ route('drivers.show',$t->driver) }}"
                                class="text-decoration-none fw-600"
-                               style="color:var(--primary-dark);">
+                               style="color:var(--primary);">
                                 <i class="bi bi-person-circle text-muted me-1"></i>{{ $t->driver->name }}
                             </a>
                         @else
@@ -55,7 +55,7 @@
                                 <i class="bi bi-pencil"></i>
                             </a>
                             <form method="POST" action="{{ route('trucks.destroy',$t) }}"
-                                  onsubmit="return confirm('هل تريد حذف هذه الشاحنة؟')">
+                                  data-confirm="هل تريد حذف هذه الشاحنة نهائياً؟">
                                 @csrf @method('DELETE')
                                 <button class="btn btn-sm btn-outline-danger" title="حذف">
                                     <i class="bi bi-trash"></i>

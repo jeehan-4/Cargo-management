@@ -1,0 +1,132 @@
+[
+  {
+    "name": "admin login -> dashboard",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "nav shipments",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "nav shipments/board",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "nav drivers",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "nav reports",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "offcanvas sidebar open/close",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "create shipment",
+    "ok": true,
+    "detail": "id=11"
+  },
+  {
+    "name": "edit shipment quantity 5->7",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "assign shipment to driver",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "unassign releases shipment",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "admin update status -> in_transit",
+    "ok": true,
+    "detail": "HTTP 200"
+  },
+  {
+    "name": "driver login -> driver dashboard",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "driver nav driver/shipments",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "driver nav driver/profile",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "driver status update -> delivered",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "driver blocked from admin pages (403)",
+    "ok": true,
+    "detail": "403/403"
+  },
+  {
+    "name": "driver blocked from others shipment (403)",
+    "ok": true,
+    "detail": "403"
+  },
+  {
+    "name": "admin blocked from driver portal (403)",
+    "ok": true,
+    "detail": "403"
+  },
+  {
+    "name": "CSRF protection (419 without token)",
+    "ok": true,
+    "detail": "419"
+  },
+  {
+    "name": "guest redirected to login",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "driver status -> inactive",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "driver status restored -> available",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "test shipment deleted (cleanup)",
+    "ok": true,
+    "detail": "404"
+  },
+  {
+    "name": "driver 1 available after lifecycle",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "admin logout",
+    "ok": true,
+    "detail": "http://localhost/cargo-management/public/"
+  },
+  {
+    "name": "driver logout",
+    "ok": true,
+    "detail": "http://localhost/cargo-management/public/login"
+  }
+]

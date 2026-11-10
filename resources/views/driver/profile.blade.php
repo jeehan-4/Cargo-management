@@ -5,56 +5,10 @@
 
 @section('content')
 <style>
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   DRIVER PROFILE — SAAS REFINED DESIGN
-   الخط المستخدم: Cairo, IBM Plex Sans Arabic
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .profile-container {
     max-width: 850px;
     margin: 0 auto;
-    font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif !important;
 }
-.profile-container * {
-    font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif !important;
-}
-
-.saas-profile-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--r-md);
-    padding: 28px;
-    box-shadow: var(--sh-sm);
-    margin-bottom: 24px;
-    transition: var(--tr);
-}
-.saas-profile-card:hover {
-    box-shadow: var(--sh-md);
-}
-
-.saas-profile-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 16px;
-    margin-bottom: 22px;
-    border-bottom: 1px solid var(--border);
-}
-
-.saas-profile-title {
-    font-size: .95rem;
-    font-weight: 800;
-    color: var(--primary);
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    margin: 0;
-}
-.saas-profile-title i {
-    color: var(--accent);
-    font-size: 1.1rem;
-}
-
-/* Custom Info Row for Profile */
 .profile-info-row {
     display: flex;
     justify-content: space-between;
@@ -79,30 +33,26 @@
 }
 </style>
 
-<div class="profile-container" dir="rtl">
-    <div class="saas-profile-card">
-        <div class="saas-profile-header">
-            <div class="saas-profile-title">
+<div class="profile-container">
+    <div class="section-card">
+        <div class="section-card-header">
+            <div class="section-card-title">
                 <i class="bi bi-person-circle"></i> بيانات السائق الشخصية
             </div>
             <span class="sbadge sbadge-{{ $driver->status }}">
-                <i class="bi {{ $driver->status === 'available' ? 'bi-check-circle' : 'bi-clock' }}"></i>
+                <i class="bi {{ $driver->status === 'available' ? 'bi-check-circle' : ($driver->status === 'busy' ? 'bi-truck' : 'bi-clock') }}"></i>
                 {{ \App\Models\Driver::statusLabel($driver->status) }}
             </span>
         </div>
 
-        <div class="saas-profile-body">
+        <div class="p-4">
             {{-- Avatar & Name Section --}}
             <div class="text-center mb-4 pb-3 border-bottom">
-                <div style="width:78px; height:78px; background:linear-gradient(135deg, var(--secondary), var(--primary));
-                    border-radius:50%; display:inline-flex; align-items:center; justify-content:center;
-                    color:#fff; font-weight:900; font-size:1.8rem;
-                    box-shadow: 0 4px 15px rgba(32,40,51,0.15);
-                    border:3px solid rgba(199,166,103,0.4);">
+                <div class="avatar-circle mx-auto" style="width:78px; height:78px; font-size:1.8rem; background: linear-gradient(135deg, var(--secondary), var(--primary)); border: 3px solid rgba(199,166,103,0.4);">
                     {{ mb_substr($driver->name, 0, 1) }}
                 </div>
-                <h4 style="font-weight:900; color:var(--primary); margin-top:12px; margin-bottom:2px;">{{ $driver->name }}</h4>
-                <p style="font-size:.8rem; color:var(--muted); font-weight:600; margin:0;">سائق معتمد بنظام إدارة الشحنات</p>
+                <h4 class="fw-900 mt-3 mb-1" style="color:var(--primary);">{{ $driver->name }}</h4>
+                <p class="text-muted-sm fw-600 m-0">سائق معتمد بنظام إدارة الشحنات</p>
             </div>
 
             {{-- Driver Information Rows --}}
@@ -128,7 +78,7 @@
             {{-- Truck Section --}}
             @if($driver->truck)
             <div class="mt-4 pt-3 border-top">
-                <h6 style="font-weight:900; font-size:.9rem; color:var(--primary); margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+                <h6 class="fw-900 mb-3 d-flex align-items-center gap-2" style="font-size:.9rem; color:var(--primary);">
                     <i class="bi bi-truck text-accent fs-5"></i> بيانات الشاحنة المرتبطة
                 </h6>
                 <div class="profile-info-row">

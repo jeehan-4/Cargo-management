@@ -7,40 +7,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Bootstrap RTL --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="{{ asset("vendor/bootstrap/bootstrap.rtl.min.css") }}">
     {{-- Bootstrap Icons --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    {{-- Cairo Font --}}
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset("vendor/bootstrap-icons/bootstrap-icons.min.css") }}">
+    {{-- Unified design system (shared with admin) --}}
+    <link href="{{ asset("css/design-system.css") }}" rel="stylesheet">
 
     <style>
-    :root {
-        --primary:      #202833;
-        --secondary:    #415A66;
-        --accent:       #C7A667;
-        --accent-lt:    rgba(199,166,103,0.12);
-        --accent-md:    rgba(199,166,103,0.25);
-        --bg:           #F7F5EF;
-        --surface:      #EAE0C8;
-        --white:        #FFFFFF;
-        --border:       rgba(65,90,102,0.10);
-        --border-md:    rgba(65,90,102,0.18);
-        --muted:        #8A96A3;
-        --muted-lt:     #B8C2CC;
-        --sidebar-w:    248px;
-        --topbar-h:     62px;
-        --r-xs:         6px;
-        --r-sm:         10px;
-        --r-md:         14px;
-        --r-lg:         18px;
-        --sh-xs:        0 1px 4px rgba(32,40,51,0.05);
-        --sh-sm:        0 2px 10px rgba(32,40,51,0.07);
-        --sh-md:        0 6px 24px rgba(32,40,51,0.10);
-        --sh-lg:        0 12px 40px rgba(32,40,51,0.14);
-        --tr-fast:      all .15s ease;
-        --tr:           all .22s ease;
-        --tr-slow:      all .35s ease;
-    }
+    
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -51,6 +25,11 @@
         font-size: 14px;
         line-height: 1.65;
         -webkit-font-smoothing: antialiased;
+    }
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100vw;
     }
     a { color: inherit; text-decoration: none; }
 
@@ -320,15 +299,35 @@
 
     @media (max-width: 768px) {
         .sidebar {
-            transform: translateX(var(--sidebar-w));
+            transform: translateX(100%);
+            max-width: 82vw;
+            visibility: hidden;
         }
-        .sidebar.open { transform: translateX(0); }
+        .sidebar.open { transform: translateX(0); visibility: visible; }
         .main-wrapper { margin-right: 0; }
         .sidebar-toggle { display: flex; }
         .sidebar-overlay.open { display: block; }
-        .topbar { padding: 0 16px; }
-        .content-area { padding: 16px; }
+        .topbar { padding: 0 16px; height: 56px; }
+        .content-area { padding: 14px 12px 36px; }
+
+        /* Tables horizontal scroll */
+        .table-responsive {
+            margin: 0 -12px !important;
+            padding: 0 12px !important;
+            -webkit-overflow-scrolling: touch;
+            overflow-x: auto;
+        }
+        .table-responsive > table,
+        .tbl {
+            min-width: 620px;
+        }
+
+        /* Touch-friendly controls */
+        .btn { touch-action: manipulation; }
+        .form-control, .form-select { font-size: 14px !important; }
     }
+
+    .sidebar-link.active::before { display: none; }
 
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-6px); }
@@ -462,7 +461,7 @@
 </div>
 
 {{-- Scripts --}}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset("vendor/bootstrap/bootstrap.bundle.min.js") }}"></script>
 <script>
 (function () {
     /* Date */
@@ -495,6 +494,18 @@
         sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
     });
     if (overlay) overlay.addEventListener('click', closeSidebar);
+
+    /* Auto-close sidebar on nav link click (mobile) */
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('open')) closeSidebar();
+        });
+    });
+
+    /* Escape closes sidebar */
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) closeSidebar();
+    });
 })();
 </script>
 @stack('scripts')

@@ -7,13 +7,14 @@ use Tests\TestCase;
 class ExampleTest extends TestCase
 {
     /**
-     * Test that root redirects to dashboard.
+     * Test that root renders the welcome page.
      */
-    public function test_root_redirects_to_dashboard(): void
+    public function test_root_renders_welcome_page(): void
     {
         $response = $this->get('/');
 
-        $response->assertRedirect(route('dashboard'));
+        $response->assertStatus(200);
+        $response->assertSee('نظام إدارة الشحنات');
     }
 
     /**

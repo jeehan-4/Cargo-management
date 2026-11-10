@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Date: Tue, 10 Nov 2026 01:03:51 GMT
+Server: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12
+X-Powered-By: PHP/8.2.12
+Content-Disposition: attachment; filename=shipments_report_all_2026-11-10.pdf
+Content-Length: 880562
+Cache-Control: no-cache, private
+Set-Cookie: XSRF-TOKEN=eyJpdiI6IkZzekpNWCtHMXFYcjNjR0dNS29qQmc9PSIsInZhbHVlIjoicjUyR3N1bGsyWWRqRGpMMHA3bU5xU0syOVdXR0N6YkE5NThHRUZqVVNUNFN5VkdaSTRGdFRpZFJoQVFOeWQ3UzhMTHY2bkpvWXJhWWt2a2dZWFc3NGl0enN6T3NDTmIrSkttNXVBMVlIQUdGMFlnczlndWw4S0xiVXhaak1UeGwiLCJtYWMiOiIzMTUxOTFiZWRhNDhlMTQ0MzM1ZThlMjY4NTM5MDY3ODExNDBiN2IxZThlZDI4YzgyMDhhZTMyYTFhZjg0ZDJiIiwidGFnIjoiIn0%3D; expires=Tue, 10 Nov 2026 03:03:55 GMT; Max-Age=7200; path=/; samesite=lax
+Set-Cookie: ntham-adar-alshhnat-session=eyJpdiI6IktqYWQyeCttUUR6Qml5dkhWTEUyRlE9PSIsInZhbHVlIjoiR2R4YldHVDFGakZpN1VTajZYeGZLMG1GaERpbS9hdDhJL1REdEM5R2dETUVUZVhlNVJXZlhiUXNKOGgwY2VJaVNWNjM4NzRraXhPcWJlOFU3a3Ztd0NobTRsYVdnTGVFYU1qMnY2TWVwZXdwM0tLbFh6UTNhRmVWeDc1c2hCVHQiLCJtYWMiOiJhMjgwOGVjNDAxZTgyNmVhMTZjZTI2MjRiYjNhYmEwYjE1OWQyODNkZjk2Y2YwNTU2Mzc5NDhmNGU2M2Q0ZWRkIiwidGFnIjoiIn0%3D; expires=Tue, 10 Nov 2026 03:03:55 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+Content-Type: application/pdf
+
